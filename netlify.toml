@@ -1,0 +1,23 @@
+[build]
+  # Install the API's dependencies (bundled into the function) and build the
+  # Vite frontend. Dev dependencies are included because NODE_ENV=production
+  # would otherwise skip Vite itself.
+  command = "npm install --prefix backend --omit=dev && npm install --prefix frontend --include=dev && npm run build --prefix frontend"
+  publish = "frontend/dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "zisi"
+
+# Express API
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Single-page app routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

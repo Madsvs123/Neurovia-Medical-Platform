@@ -1,23 +1,20 @@
 const multer = require('multer');
-const path = require('path');
 const fs = require('fs');
+const { isServerless, localDir, makeKey } = require('../utils/fileStorage');
 
-// Configure storage
-const storage = multer.diskStorage({
+// Configure storage. On Netlify, files are kept in memory and then saved to
+// Netlify Blobs by the upload route (the function filesystem is read-only).
+const storage = isServerless() ? multer.memoryStorage() : multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '../uploads');
-    
     // Create uploads directory if it doesn't exist
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    if (!fs.existsSync(localDir)) {
+      fs.mkdirSync(localDir, { recursive: true });
     }
-    
-    cb(null, uploadDir);
+
+    cb(null, localDir);
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+    cb(null, makeKey(file.fieldname, file.originalname));
   }
 });
 

@@ -6,6 +6,7 @@ import {
 import { FiSettings, FiServer, FiDatabase, FiClock } from 'react-icons/fi';
 import { getUsers, getCourses, getSubscriptions, getPayments } from '../services/api';
 import dayjs from 'dayjs';
+import { API_BASE_URL } from '../../lib/http';
 
 const Settings = () => {
   const cardBg = useColorModeValue('white', 'gray.800');
@@ -46,7 +47,7 @@ const Settings = () => {
           <VStack spacing={3} align="stretch">
             <InfoRow label="Version" value="Neurovia v1.0.0" />
             <InfoRow label="Environment" value={import.meta.env.MODE || 'production'} badge />
-            <InfoRow label="API URL" value={import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'} />
+            <InfoRow label="API URL" value={API_BASE_URL || window.location.origin} />
             <InfoRow label="Build Time" value={dayjs().format('MMM D, YYYY h:mm A')} />
           </VStack>
         </Box>

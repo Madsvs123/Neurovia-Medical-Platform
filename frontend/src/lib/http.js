@@ -9,7 +9,11 @@ import Cookies from 'js-cookie';
  * admin one even logged users out on any 403). All three `services/api.js`
  * modules now import this instance.
  */
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+// In production the API is served from the same domain under /api (a
+// Netlify Function), so requests use relative URLs. Locally it defaults to
+// the Express dev server.
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  ?? (import.meta.env.PROD ? '' : 'http://localhost:5000');
 
 export const getAuthToken = () => Cookies.get('userToken');
 
