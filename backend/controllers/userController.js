@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const Profile = require('../models/Profile');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const { notify, notifyMany } = require('../utils/notify');

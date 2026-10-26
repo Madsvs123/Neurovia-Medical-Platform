@@ -9,6 +9,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiSave, FiVideo, FiFileText, FiUpload, FiExternalLink, FiTrash2 } from 'react-icons/fi';
 import { getLessonById, updateLesson, deleteLesson } from '../services/api';
 import dayjs from 'dayjs';
+import { API_BASE_URL } from '../../lib/http';
 
 const LessonEditor = () => {
   const { courseId, lessonId } = useParams();
@@ -196,7 +197,7 @@ const LessonEditor = () => {
                   <Flex key={idx} p={2} bg={useColorModeValue('gray.50', 'gray.700')} borderRadius="md" align="center" gap={3} fontSize="sm">
                     <Icon as={FiFileText} boxSize={4} color="blue.500" />
                     <Text flex={1} noOfLines={1}>{att.split('/').pop() || att}</Text>
-                    <Button as="a" href={att.startsWith('http') ? att : `http://localhost:5001/uploads/${att}`} target="_blank" size="xs" variant="ghost" icon={<FiExternalLink />} aria-label="View" />
+                    <Button as="a" href={att.startsWith('http') ? att : `${API_BASE_URL}/api/uploads/${att}`} target="_blank" size="xs" variant="ghost" icon={<FiExternalLink />} aria-label="View" />
                     <IconButton icon={<FiTrash2 />} size="xs" variant="ghost" colorScheme="red" onClick={() => removeAttachment(idx)} aria-label="Remove" />
                   </Flex>
                 ))}
